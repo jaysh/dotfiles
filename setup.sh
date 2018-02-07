@@ -4,12 +4,9 @@ set -e
 # Print commands as they're being run
 set -x
 
-function install_git() {
-    sudo apt -y install git
-}
-
 function vim_from_source() {
     sudo apt -y remove vim
+    sudo apt -y install libevent-dev ncurses-dev
     git clone --depth=1 https://github.com/vim/vim.git
     cd vim
     make
@@ -27,10 +24,10 @@ function vim_from_source() {
 
 function tmux_from_source() {
     sudo apt -y remove tmux
+    rm -rf tmux-2.6*
     wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
     tar xf tmux-2.6.tar.gz
     cd tmux-2.6
-    sudo apt -y install libevent-dev
     ./configure
     make -j 2
     sudo make install
@@ -45,7 +42,7 @@ function vim_configuration() {
 }
 
 function tmux_configuration() {
-    rm ~/.tmux.conf
+    rm -f ~/.tmux.conf
     ln -s `pwd`/tmux.conf ~/.tmux.conf
     tmux source-file ~/.tmux.conf
 }
@@ -53,7 +50,6 @@ function tmux_configuration() {
 function main() {
     if [[ $(uname -s) == "Linux" ]]
     then
-        install_git
         vim_from_source
         tmux_from_source
     else
