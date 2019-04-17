@@ -47,6 +47,11 @@ function tmux_configuration() {
     tmux source-file ~/.tmux.conf
 }
 
+function fzf_install() {
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+}
+
 function main() {
     if [[ $(uname -s) == "Linux" ]]
     then
@@ -59,6 +64,7 @@ function main() {
         read
         set -x
     fi
+    fzf_install
     vim_configuration
     tmux_configuration
 }
