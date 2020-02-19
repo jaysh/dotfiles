@@ -47,6 +47,11 @@ function tmux_configuration() {
     tmux source-file ~/.tmux.conf
 }
 
+function kitty_configuration() {
+    rm -f ~/.config/kitty/kitty.conf
+    ln -s `pwd`/kitty.conf ~/.config/kitty/kitty.conf
+}
+
 function fzf_install() {
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
@@ -67,6 +72,7 @@ function main() {
     fzf_install
     vim_configuration
     tmux_configuration
+    kitty_configuration
 }
 
 main
